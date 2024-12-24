@@ -64,6 +64,7 @@ matplotlib==3.9.2
 matplotlib-inline @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-inline_1713250518406/work
 mdurl==0.1.2
 ml-dtypes==0.4.1
+mysql-connector-python==9.1.0
 namex==0.0.8
 nest_asyncio @ file:///home/conda/feedstock_root/build_artifacts/nest-asyncio_1705850609492/work
 numpy==2.0.2

@@ -5,14 +5,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 import datetime
 import chromedriver_autoinstaller
+import shutil
 
 # chromedriver 자동 설치 및 경로 설정
 chromedriver_autoinstaller.install()
 
+# 실행 위치 경로 설정
+script_dir = os.path.dirname(os.path.abspath(__file__))  # 현재 파일 경로
+
 # 경로 설정
-base_dir = os.getcwd()  # 현재 실행 경로
-tmp_dir = os.path.join(base_dir, r"data\raw\tmp")  # 임시 다운로드 폴더
-final_dir = os.path.join(base_dir, r"data\raw\agromarket")  # 최종 저장 폴더
+crawlings_dir = script_dir  # 현재 파일이 있는 디렉토리
+tmp_dir = os.path.join(crawlings_dir, "tmp")  # 임시 다운로드 폴더
+final_dir = os.path.join(crawlings_dir, "..", "data", "raw", "agromarket")  # 최종 저장 폴더
 
 os.makedirs(tmp_dir, exist_ok=True)
 os.makedirs(final_dir, exist_ok=True)
@@ -95,5 +99,9 @@ try:
 finally:
     # 드라이버 종료
     driver.quit()
+
+    # 임시 폴더 삭제
+    if os.path.exists(tmp_dir):
+        shutil.rmtree(tmp_dir)
 
 print(f"모든 데이터가 '{final_dir}'에 저장되었습니다.")
