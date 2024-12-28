@@ -47,6 +47,8 @@ df_climate.rename(columns=climate_column_mapping, inplace=True)
 
 # 데이터프레임을 MySQL 테이블로 저장
 weather_table_name = 'weather_data'
+df_climate.reset_index(inplace=True)
+df_climate.rename(columns={'index': 'weather_id'}, inplace=True)
 df_climate.to_sql(name=weather_table_name, con=engine, if_exists='replace', index=False)
 print(f"데이터가 MySQL 데이터베이스의 {weather_table_name} 테이블에 저장되었습니다.")
 
@@ -70,5 +72,7 @@ df_market.rename(columns=market_column_mapping, inplace=True)
 
 # 데이터프레임을 MySQL 테이블로 저장
 auction_table_name = 'auction_data'
+df_market.reset_index(inplace=True)
+df_market.rename(columns={'index': 'auction_id'}, inplace=True)
 df_market.to_sql(name=auction_table_name, con=engine, if_exists='replace', index=False)
 print(f"데이터가 MySQL 데이터베이스의 {auction_table_name} 테이블에 저장되었습니다.")

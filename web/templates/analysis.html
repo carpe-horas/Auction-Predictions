@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis - 경매 가격 분석{% endblock %}
+
+{% block content %}
+<section>
+    <h2>과거 데이터 분석</h2>
+    <div id="loading" style="display: block; text-align: center; color: gray;">
+        데이터를 로딩 중입니다...
+    </div>
+    <canvas id="priceChart" style="display: none;" width="800" height="400"></canvas>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/analysis.js"></script>
+{% endblock %}

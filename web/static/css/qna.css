@@ -1,0 +1,68 @@
+/* Q&A 제목 스타일 */
+h2 {
+    text-align: center; 
+    margin-bottom: 50px; 
+    font-size: 1.8rem; 
+    color: #153917 !important;
+    font-weight: bold
+}
+
+
+
+/* Q&A 섹션 스타일 */
+.faq-list {
+    margin: 0;
+    padding: 0;
+}
+
+.faq-item {
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden; /* 답변이 숨겨질 때 부드럽게 처리 */
+    background-color: #f9f9f9;
+}
+
+/* 질문 스타일 */
+.faq-question {
+    padding: 1rem;
+    cursor: pointer;
+    background-color: #a8a8a8;
+    color: white;
+    font-weight: bold;
+    height: 30px;
+    display: flex; /* 플렉스 박스 */
+    align-items: center; /* 세로 정렬 */
+    justify-content: space-between; /* 아이콘과 질문 텍스트 양쪽 정렬 */
+    line-height: normal; /* 텍스트 줄 높이 초기화 */
+}
+
+/* 아이콘 스타일 */
+.faq-question .toggle-icon {
+    font-size: 1.2rem;
+    margin-right: 10px; /* 아이콘과 텍스트 간의 간격 */
+    transition: transform 0.3s ease; /* 상태 변화 시 부드러운 애니메이션 */
+}
+
+/* 질문 호버 시 스타일 */
+.faq-question:hover {
+    background-color: #767676;
+}
+
+/* 답변 스타일 */
+.faq-answer {
+    max-height: 0; /* 초기 상태에서 숨김 */
+    overflow: hidden; /* 스크롤 숨김 */
+    transition: max-height 0.3s ease, padding 0.3s ease; /* 부드러운 애니메이션 */
+    padding: 0 1rem; /* 숨겨진 상태에서 좌우 패딩 유지 */
+}
+
+/* 답변이 활성화된 상태 */
+.faq-answer.active {
+    padding: 1rem; /* 열릴 때 패딩 추가 */
+}
+
+/* 질문이 열릴 때 아이콘 회전 */
+.faq-question.open .toggle-icon {
+    transform: rotate(45deg); /* + 모양에서 x 모양으로 회전 */
+}
