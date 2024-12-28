@@ -64,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             chartContainer.innerHTML = '';
 
-            await createCharts(data);
+            // 비동기로 차트 생성
+            await renderChartsAsync(data);
 
             adjustFooterSpacing();
         } catch (error) {
@@ -74,93 +75,109 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    async function createCharts(data) {
-        const createChart = async (container, labels, datasets, title) => {
-            const canvasElement = document.createElement('canvas');
-    
-            // 부모 컨테이너 크기를 기준으로 canvas 크기를 설정
-            canvasElement.width = chartContainer.clientWidth * 0.9; // 차트 컨테이너 너비의 90%
-            canvasElement.height = canvasElement.width / 2; // 2:1 비율
-    
-            container.appendChild(canvasElement);
-    
-            new Chart(canvasElement.getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels,
-                    datasets,
-                },
-                options: {
-                    responsive: false, 
-                    maintainAspectRatio: false, // 캔버스 비율 유지 비활성화
-                    scales: {
-                        y: { beginAtZero: true },
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: title,
+    // 비동기로 차트를 생성하는 함수
+    async function renderChartsAsync(data) {
+        const createChart = (container, labels, datasets, title) => {
+            return new Promise((resolve, reject) => {
+                try {
+                    const canvasElement = document.createElement('canvas');
+                    canvasElement.width = chartContainer.clientWidth * 0.9; // 차트 컨테이너 너비의 90%
+                    canvasElement.height = canvasElement.width / 2; // 2:1 비율
+
+                    container.appendChild(canvasElement);
+
+                    new Chart(canvasElement.getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels,
+                            datasets,
                         },
-                    },
-                },
+                        options: {
+                            responsive: false,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: { beginAtZero: true },
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: title,
+                                },
+                            },
+                        },
+                    });
+
+                    resolve();
+                } catch (error) {
+                    console.error(`Error creating chart (${title}):`, error);
+                    reject(error);
+                }
             });
         };
-    
+
+        const chartPromises = [];
+
         // 지역별 분석 차트
         if (data.regional_analysis?.region?.length) {
             const regionalDiv = document.createElement('div');
             regionalDiv.style.marginBottom = '50px';
             chartContainer.appendChild(regionalDiv);
-    
-            await createChart(
-                regionalDiv,
-                data.regional_analysis.region,
-                [
-                    {
-                        label: '평균물량 (kg)',
-                        data: data.regional_analysis.avg_quantity_kg,
-                        backgroundColor: 'rgba(135, 206, 250, 0.7)',
-                    },
-                    {
-                        label: '평균단가 (원/kg)',
-                        data: data.regional_analysis.avg_unit_price_per_kg,
-                        type: 'line',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 2,
-                        fill: false,
-                    },
-                ],
-                '지역별 분석'
+
+            chartPromises.push(
+                createChart(
+                    regionalDiv,
+                    data.regional_analysis.region,
+                    [
+                        {
+                            label: '평균물량 (kg)',
+                            data: data.regional_analysis.avg_quantity_kg,
+                            backgroundColor: 'rgba(135, 206, 250, 0.7)',
+                        },
+                        {
+                            label: '평균단가 (원/kg)',
+                            data: data.regional_analysis.avg_unit_price_per_kg,
+                            type: 'line',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2,
+                            fill: false,
+                        },
+                    ],
+                    '지역별 분석'
+                )
             );
         }
-    
+
         // 계절별 분석 차트
         if (data.seasonal_analysis?.season?.length) {
             const seasonalDiv = document.createElement('div');
             seasonalDiv.style.marginBottom = '50px';
             chartContainer.appendChild(seasonalDiv);
-    
-            await createChart(
-                seasonalDiv,
-                data.seasonal_analysis.season,
-                [
-                    {
-                        label: '평균물량 (kg)',
-                        data: data.seasonal_analysis.avg_quantity_kg,
-                        backgroundColor: 'rgba(135, 206, 250, 0.7)',
-                    },
-                    {
-                        label: '평균단가 (원/kg)',
-                        data: data.seasonal_analysis.avg_unit_price_per_kg,
-                        type: 'line',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 2,
-                        fill: false,
-                    },
-                ],
-                '계절별 분석'
+
+            chartPromises.push(
+                createChart(
+                    seasonalDiv,
+                    data.seasonal_analysis.season,
+                    [
+                        {
+                            label: '평균물량 (kg)',
+                            data: data.seasonal_analysis.avg_quantity_kg,
+                            backgroundColor: 'rgba(135, 206, 250, 0.7)',
+                        },
+                        {
+                            label: '평균단가 (원/kg)',
+                            data: data.seasonal_analysis.avg_unit_price_per_kg,
+                            type: 'line',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2,
+                            fill: false,
+                        },
+                    ],
+                    '계절별 분석'
+                )
             );
         }
+
+        // 모든 차트 생성 비동기 실행
+        await Promise.all(chartPromises);
     }
-    
 });
