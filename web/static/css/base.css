@@ -1,0 +1,115 @@
+/* 공통 레이아웃 스타일 */
+html, body {
+    height: 100%; /* 화면 전체를 채움 */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* 세로 방향 레이아웃 */
+}
+
+/* 네비게이션 바 스타일 */
+.navbar {
+    display: flex; /* 플렉스 박스 */
+    justify-content: space-between; /* 양쪽 정렬 */
+    align-items: center; /* 세로 정렬 */
+    padding: 0.5rem 2rem;
+    background-color: #153917; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    z-index: 1000;
+    box-sizing: border-box;
+    height: 80px; /* 원하는 높이로 설정 */
+}
+
+/* 로고 및 사이트 제목 */
+.logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* 로고 크기 고정 */
+}
+
+.logo .material-icons {
+    font-size: 2rem;
+    color: white;
+    margin-right: 10px;
+}
+
+.site-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* 메뉴 스타일 */
+.menu {
+    display: flex; 
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-right: 0; 
+    flex-grow: 1; /* 메뉴가 남은 공간을 채우도록 설정 */
+    flex-wrap: nowrap; /* 줄바꿈 방지 */
+}
+
+.menu li {
+    margin: 0 15px; /* 각 메뉴 항목 간 좌우 간격 */
+}
+
+.menu li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    transition: color 0.3s ease;
+}
+
+.menu li a:hover {
+    color: #aacfa6; 
+}
+
+/* 작은 화면에서 로고 텍스트 숨기기 */
+@media (max-width: 768px) {
+    .site-title {
+        display: none; /* 로고 텍스트 숨기기 */
+    }
+
+    .menu {
+        justify-content: flex-start; /* 메뉴 왼쪽 정렬 */
+    }
+}
+
+/* 메인 컨텐츠 스타일 */
+main {
+    flex: 1; /* 메인 콘텐츠가 남는 공간을 채움 */
+    padding: 5rem 2rem;
+    display: flex;
+    flex-direction: column; /* 세로 방향 콘텐츠 배치 */
+    justify-content: flex-start; /* 콘텐츠를 상단 정렬 */
+    align-items: center; /* 가로 가운데 정렬 */
+    min-height: calc(100vh - 80px - 50px); /* 화면 높이 - 네비게이션 바 높이 - Footer 높이 */
+}
+
+main section {
+    background-color: white; 
+    padding: 1.5rem;
+    border-radius: 10px; 
+    box-shadow: none; 
+    max-width: 800px; /* 중앙 콘텐츠의 최대 너비 */
+    width: 100%; /* 반응형 */
+}
+
+/* Footer 스타일 */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #153917; 
+    color: white;
+    width: 100%;
+}

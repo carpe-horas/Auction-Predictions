@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/base.css">
+    {% block styles %}
+    {% endblock %}
+    <title>{% block title %}농산물 경매가격 예측{% endblock %}</title>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <span class="material-icons">eco</span>
+            <span class="site-title">ClimateMarketForecast</span>
+        </div>
+        <nav>
+            <ul class="menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/analysis">Analysis</a></li>
+                <li><a href="/prediction">Prediction</a></li>
+                <li><a href="/qna">Q&A</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>© 경매가격 예측 프로젝트 | <a href="mailto:belicia1226@gmail.com">문의하기</a></p>
+    </footer>
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>
