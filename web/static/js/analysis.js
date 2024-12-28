@@ -1,74 +1,166 @@
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("analysis 페이지 로드 완료");
-});
+document.addEventListener('DOMContentLoaded', () => {
+    const itemSelect = document.getElementById('item-select');
+    const chartContainer = document.getElementById('chart-container');
+    const generateChartButton = document.getElementById('generate-chart');
+    const loadingMessage = document.getElementById('loading-message');
+    const footer = document.querySelector('footer');
+    const mainContent = document.querySelector('main');
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const itemName = "배추"; // 요청할 품목 이름
-    try {
-        // Flask API로 데이터 요청
-        const response = await fetch(`/analysis/data?item=${encodeURIComponent(itemName)}`);
-        if (!response.ok) throw new Error("분석 데이터를 가져오는 데 실패했습니다.");
+    // Footer 위치 조정 함수
+    const adjustFooterSpacing = () => {
+        const mainHeight = mainContent.offsetHeight;
+        const viewportHeight = window.innerHeight;
+        const footerHeight = footer.offsetHeight;
 
-        const data = await response.json();
-        console.log("가져온 데이터:", data);
-
-        if (data.length === 0) {
-            console.warn("데이터가 비어 있습니다. 그래프를 생성할 수 없습니다.");
-            return;
+        if (mainHeight + footerHeight < viewportHeight) {
+            footer.style.marginTop = `${viewportHeight - mainHeight - footerHeight}px`;
+        } else {
+            footer.style.marginTop = '150px';
         }
+    };
 
-        // 데이터 가공
-        const labels = [...new Set(data.map(item => item.date))]; // 날짜
-        console.log("라벨(날짜):", labels);
+    adjustFooterSpacing();
+    window.addEventListener('resize', adjustFooterSpacing);
 
-        const datasets = [{
-            label: itemName,
-            data: labels.map(date => {
-                const record = data.find(d => d.date === date);
-                return record ? record.avg_unit_price_per_kg : null;
-            }),
-            borderColor: getRandomColor(),
-            borderWidth: 2,
-            fill: false
-        }];
-        console.log("생성된 데이터셋:", datasets);
+    // 로딩 메시지 표시 함수
+    const showLoading = () => {
+        loadingMessage.classList.remove('hidden');
+        loadingMessage.classList.add('visible');
+    };
 
-        // Chart.js 그래프 생성
-        const ctx = document.getElementById("priceChart").getContext("2d");
-        new Chart(ctx, {
-            type: "line",
-            data: {
-                labels,
-                datasets
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: "top"
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: "날짜"
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: "평균 단가 (원/kg)"
-                        }
-                    }
-                }
-            }
-        });
-    } catch (error) {
-        console.error("분석 데이터를 불러오는 중 오류가 발생했습니다:", error);
+    const hideLoading = () => {
+        loadingMessage.classList.remove('visible');
+        loadingMessage.classList.add('hidden');
+    };
+
+    if (itemSelect.options.length > 0) {
+        generateChartButton.disabled = false;
     }
-});
 
-function getRandomColor() {
-    return `hsl(${Math.random() * 360}, 70%, 70%)`;
-}
+    generateChartButton.addEventListener('click', async () => {
+        try {
+            showLoading();
+
+            const selectedItem = itemSelect.value;
+
+            if (!selectedItem) {
+                alert('먼저 품목을 선택하세요.');
+                hideLoading();
+                return;
+            }
+
+            const response = await fetch(`/analysis/get-item-data?item=${selectedItem}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+
+            hideLoading();
+
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            chartContainer.innerHTML = '';
+
+            await createCharts(data);
+
+            adjustFooterSpacing();
+        } catch (error) {
+            hideLoading();
+            console.error('Error during chart generation:', error);
+            alert('시각화를 생성하는 중 오류가 발생했습니다.');
+        }
+    });
+
+    async function createCharts(data) {
+        const createChart = async (container, labels, datasets, title) => {
+            const canvasElement = document.createElement('canvas');
+    
+            // 부모 컨테이너 크기를 기준으로 canvas 크기를 설정
+            canvasElement.width = chartContainer.clientWidth * 0.9; // 차트 컨테이너 너비의 90%
+            canvasElement.height = canvasElement.width / 2; // 2:1 비율
+    
+            container.appendChild(canvasElement);
+    
+            new Chart(canvasElement.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets,
+                },
+                options: {
+                    responsive: false, 
+                    maintainAspectRatio: false, // 캔버스 비율 유지 비활성화
+                    scales: {
+                        y: { beginAtZero: true },
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: title,
+                        },
+                    },
+                },
+            });
+        };
+    
+        // 지역별 분석 차트
+        if (data.regional_analysis?.region?.length) {
+            const regionalDiv = document.createElement('div');
+            regionalDiv.style.marginBottom = '50px';
+            chartContainer.appendChild(regionalDiv);
+    
+            await createChart(
+                regionalDiv,
+                data.regional_analysis.region,
+                [
+                    {
+                        label: '평균물량 (kg)',
+                        data: data.regional_analysis.avg_quantity_kg,
+                        backgroundColor: 'rgba(135, 206, 250, 0.7)',
+                    },
+                    {
+                        label: '평균단가 (원/kg)',
+                        data: data.regional_analysis.avg_unit_price_per_kg,
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                    },
+                ],
+                '지역별 분석'
+            );
+        }
+    
+        // 계절별 분석 차트
+        if (data.seasonal_analysis?.season?.length) {
+            const seasonalDiv = document.createElement('div');
+            seasonalDiv.style.marginBottom = '50px';
+            chartContainer.appendChild(seasonalDiv);
+    
+            await createChart(
+                seasonalDiv,
+                data.seasonal_analysis.season,
+                [
+                    {
+                        label: '평균물량 (kg)',
+                        data: data.seasonal_analysis.avg_quantity_kg,
+                        backgroundColor: 'rgba(135, 206, 250, 0.7)',
+                    },
+                    {
+                        label: '평균단가 (원/kg)',
+                        data: data.seasonal_analysis.avg_unit_price_per_kg,
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                    },
+                ],
+                '계절별 분석'
+            );
+        }
+    }
+    
+});
