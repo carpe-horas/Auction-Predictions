@@ -1,44 +1,61 @@
 from flask import Blueprint, render_template, jsonify, request
-from services.analysis_service import fetch_and_preprocess_data, reset_analysis_cache
-import logging
+from sqlalchemy import create_engine
+import pandas as pd
+from dotenv import load_dotenv
+import os
 
-# 로깅 설정
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+# .env 파일 로드
+load_dotenv()
 
-analysis_routes = Blueprint("analysis", __name__)
+# Blueprint 설정
+analysis_routes = Blueprint('analysis_routes', __name__)
 
-@analysis_routes.route("/")
-def analysis_page():
-    return render_template("analysis.html")
+# DB 연결 설정
+def get_db_connection():
+    db_user = os.getenv("DB_USER")
+    db_password = os.getenv("DB_PASSWORD")
+    db_host = os.getenv("DB_HOST")
+    db_name = os.getenv("DB_NAME")
+    connection_string = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}"
+    engine = create_engine(connection_string)
+    return engine
 
-@analysis_routes.route("/preprocess", methods=["POST"])
-def start_preprocessing():
-    """동기적으로 데이터를 전처리"""
-    logging.info("데이터 전처리 시작")
-    processed_data = fetch_and_preprocess_data()  # 데이터 전처리 동기 실행
-    logging.info("데이터 전처리 완료")
-    return jsonify({"message": "데이터 전처리가 완료되었습니다."})
+# Analysis 페이지 렌더링
+@analysis_routes.route('/', methods=['GET'])
+def analysis_home():
+    try:
+        engine = get_db_connection()
+        query = "SELECT DISTINCT item FROM agromarket_climate"
+        df = pd.read_sql(query, engine)
+        items = df['item'].tolist()
+        return render_template('analysis.html', items=items)
+    except Exception as e:
+        print(f"오류 발생: {e}")
+        return render_template('analysis.html', items=[])
 
+# 품목 데이터 가져오기
+@analysis_routes.route('/get-item-data', methods=['GET'])
+def get_item_data():
+    try:
+        item = request.args.get('item', None)
+        if not item:
+            return jsonify({"error": "No item specified"}), 400
 
-@analysis_routes.route("/data", methods=["GET"])
-def get_analysis_data():
-    """요청한 품목의 데이터를 반환"""
-    requested_item = request.args.get("item", default="배추")
-    logging.info(f"요청된 품목: {requested_item}")
-    
-    # 데이터 가져오기
-    processed_data = fetch_and_preprocess_data(filter_item=requested_item)
-    
-    # JSON 변환
-    logging.info("JSON 변환 시작")
-    data = processed_data.to_dict(orient="records")
-    logging.info("JSON 변환 완료")
-    
-    return jsonify(data)
+        engine = get_db_connection()
+        query = f"SELECT * FROM agromarket_climate WHERE item = '{item}'"
+        df = pd.read_sql(query, engine)
 
-@analysis_routes.route("/reset-cache", methods=["POST"])
-def reset_cache():
-    """캐시 초기화"""
-    reset_analysis_cache()  
-    logging.info("캐시 초기화 완료")
-    return jsonify({"message": "캐시 초기화 완료"})
+        regional_analysis = (
+            df.groupby('region')[['avg_unit_price_per_kg', 'avg_quantity_kg']].mean().reset_index()
+        )
+        seasonal_analysis = (
+            df.groupby('season')[['avg_unit_price_per_kg', 'avg_quantity_kg']].mean().reset_index()
+        )
+
+        return jsonify({
+            "regional_analysis": regional_analysis.to_dict(orient='list'),
+            "seasonal_analysis": seasonal_analysis.to_dict(orient='list')
+        })
+    except Exception as e:
+        print(f"오류 발생: {e}")
+        return jsonify({"error": str(e)}), 500

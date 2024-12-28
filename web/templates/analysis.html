@@ -1,15 +1,32 @@
 {% extends "base.html" %}
 
-{% block title %}Analysis - 경매 가격 분석{% endblock %}
+{% block title %}Analysis - 농산물 경매 데이터 분석{% endblock %}
 
 {% block content %}
 <section>
-    <h2>과거 데이터 분석</h2>
-    <div id="loading" style="display: block; text-align: center; color: gray;">
-        데이터를 로딩 중입니다...
+    <h2>품목별 데이터 시각화</h2>
+    <div id="select-box-container">
+        <label for="item-select">품목 선택:</label>
+        <select id="item-select">
+            {% if items %}
+            {% for item in items %}
+            <option value="{{ item }}">{{ item }}</option>
+            {% endfor %}
+            {% else %}
+            <option disabled selected>데이터 없음</option>
+            {% endif %}
+        </select>
+        <button id="generate-chart" disabled>그래프 생성</button>
     </div>
-    <canvas id="priceChart" style="display: none;" width="800" height="400"></canvas>
+    <div id="loading-message" class="hidden">데이터를 시각화 중입니다...</div>
+    <div id="chart-container">
+        <!-- 시각화가 여기에 렌더링 -->
+    </div>
 </section>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/css/analysis.css">
 {% endblock %}
 
 {% block scripts %}
