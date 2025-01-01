@@ -1,0 +1,99 @@
+/* 공통 스타일 */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 네비게이션 바 높이*/
+.navbar {
+    height: 80px;
+}
+
+/* 메인 컨텐츠 스타일 */
+main {
+    flex: 1; /* 남는 공간을 채우도록 설정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 세로 방향 중앙 정렬 */
+    align-items: center; /* 가로 방향 중앙 정렬 */
+    padding-top: 100px; 
+    width: 90%;
+    box-sizing: border-box;
+    margin: 0 auto; /* 수평으로 중앙 정렬 */
+}
+
+
+/* 배경 스타일 */
+section {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* 제목 스타일 */
+h2 {
+    color: #153917;
+    font-size: 2rem;
+    border-bottom: 2px solid #aacfa6;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* 단락 텍스트 */
+p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+/* 리스트 스타일 */
+ul, ol {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; 
+    margin: 0; 
+}
+
+ul li, ol li {
+    margin-bottom: 0.8rem; 
+    font-size: 1.1rem; 
+}
+
+/* 강조 효과 */
+ul li::marker, ol li::marker {
+    color: #153917;
+    font-size: 1.3rem;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #153917;
+    color: white;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #aacfa6;
+}
+
+/* Footer 스타일 */
+footer {
+    text-align: center;
+    background-color: #153917;
+    color: white;
+    padding: 10px 0;
+    margin-top: auto; /* 남는 공간을 활용해 아래로 밀림 */
+    width: 100%;
+    box-sizing: border-box;
+}

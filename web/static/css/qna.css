@@ -7,8 +7,6 @@ h2 {
     font-weight: bold
 }
 
-
-
 /* Q&A 섹션 스타일 */
 .faq-list {
     margin: 0;
@@ -16,6 +14,8 @@ h2 {
 }
 
 .faq-item {
+    margin: 0 auto 1.5rem;
+    max-width: 800px;
     margin-bottom: 1.5rem;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -27,7 +27,7 @@ h2 {
 .faq-question {
     padding: 1rem;
     cursor: pointer;
-    background-color: #a8a8a8;
+    background-color: #bbbcbc;
     color: white;
     font-weight: bold;
     height: 30px;
@@ -40,7 +40,7 @@ h2 {
 /* 아이콘 스타일 */
 .faq-question .toggle-icon {
     font-size: 1.2rem;
-    margin-right: 10px; /* 아이콘과 텍스트 간의 간격 */
+    margin-right: 10px; /* 아이콘과 텍스트 간 간격 */
     transition: transform 0.3s ease; /* 상태 변화 시 부드러운 애니메이션 */
 }
 

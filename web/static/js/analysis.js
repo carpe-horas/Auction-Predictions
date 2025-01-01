@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const footer = document.querySelector('footer');
     const mainContent = document.querySelector('main');
 
-    // Footer 위치 조정 함수
+    // Footer 위치 조정
     const adjustFooterSpacing = () => {
         const mainHeight = mainContent.offsetHeight;
         const viewportHeight = window.innerHeight;
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     adjustFooterSpacing();
     window.addEventListener('resize', adjustFooterSpacing);
 
-    // 로딩 메시지 표시 함수
+    // 로딩 메시지 표시
     const showLoading = () => {
         loadingMessage.classList.remove('hidden');
         loadingMessage.classList.add('visible');

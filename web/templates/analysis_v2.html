@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis V2 - 농산물 경매 데이터 분석{% endblock %}
+
+{% block content %}
+<section>
+    <h2>농산물 품목별 데이터 시각화</h2>
+    <h4>- 품목을 선택하면 데이터를 분석하여 시각화한 결과를 볼 수 있습니다.</h4>
+    <!-- 품목 선택 영역 -->
+    <div id="select-box-container">
+        <label for="item-select">품목 선택:</label>
+        <select id="item-select" class="pl">
+            <option value="" disabled selected>품목을 선택해주세요</option> <!-- 첫 번째 항목 -->
+            {% if items %}
+                {% for item in items %}
+                    <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            {% else %}
+                <option disabled selected>데이터 없음</option>
+            {% endif %}
+        </select>
+    </div>
+
+    <!-- 메인 컨테이너 -->
+    <div id="outer-container">
+        <div id="menu-container">
+            <h3>분석 메뉴 선택</h3>
+            <ul class="menu-list">
+                <li class="menu-item" data-type="daily_quantity_price_trend">일별 물량 및 가격 추세</li>
+                <li class="menu-item" data-type="quantity_price_correlation">물량 대비 가격 상관관계</li>
+                <li class="menu-item" data-type="item_price_extremes">품목별 최고가 및 최저가</li>
+                <li class="menu-item" data-type="seasonal_average_price_quantity">계절별 평균 단가 및 물량</li>
+                <li class="menu-item" data-type="monthly_average_price_quantity">월별 평균 단가 및 물량</li>
+                <li class="menu-item" data-type="recent_30_days_average_price_quantity">최근 30일간 평균 단가 및 물량</li>
+                <li class="menu-item" data-type="temperature_average_price_quantity">평균기온별 평균 단가 및 물량</li>
+                <li class="menu-item" data-type="rainfall_average_price_quantity">일 강수량별 평균 단가 및 물량</li>
+            </ul>
+        </div>
+
+        <!-- 오른쪽 그래프 -->
+        <div id="chart-wrapper">
+            <h3 id="chart-title">분석 결과</h3>
+            <div id="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/css/analysis_v2.css">
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/analysis_v2.js"></script>
+{% endblock %}

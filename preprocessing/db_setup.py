@@ -34,7 +34,7 @@ CREATE TABLE auction_data (
     category VARCHAR(100),
     item VARCHAR(100),
     variety VARCHAR(100),
-    market VARCHAR(100),
+    market INT,
     quantity_kg FLOAT,
     price_won INT,
     FOREIGN KEY (market) REFERENCES market_info(market_id)
