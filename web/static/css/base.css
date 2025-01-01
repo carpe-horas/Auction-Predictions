@@ -3,7 +3,7 @@ html, body {
     height: 100%; 
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Nanum Gothic', sans-serif; /* 나눔고딕 적용 */
     color: #333;
     line-height: 1.6;
     display: flex;
@@ -93,16 +93,23 @@ main {
     flex-direction: column; /* 세로 방향 콘텐츠 배치 */
     justify-content: flex-start; /* 콘텐츠를 상단 정렬 */
     align-items: center; /* 가로 가운데 정렬 */
-    min-height: calc(100vh - 80px - 50px); /* 화면 높이 - 네비게이션 바 높이 - Footer 높이 */
-    margin-bottom: 150px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* 홈 페이지 전용 스타일 */
+main.home {
+    min-height: calc(100vh - 80px); /* 화면 높이에서 네비게이션 바 높이를 뺀 값 */
+    margin-bottom: 0; /* Footer와의 여백 제거 */
+}
+
+/* 섹션 스타일 */
 main section {
     background-color: white; 
     padding: 1.5rem;
     border-radius: 10px; 
     box-shadow: none; 
-    max-width: 800px; /* 중앙 콘텐츠의 최대 너비 */
+    max-width: 1200px; /* 중앙 콘텐츠의 최대 너비 */
     width: 100%; /* 반응형 */
 }
 
@@ -114,4 +121,5 @@ footer {
     color: white;
     width: 100%;
     margin-top: auto; /* Footer를 페이지 하단으로 밀기 */
+    box-sizing: border-box;
 }

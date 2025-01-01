@@ -1,10 +1,47 @@
 {% extends "base.html" %}
 
-{% block title %}모델 예측{% endblock %}
+{% block title %}농산물 예측{% endblock %}
 
 {% block content %}
 <section>
-    <h2>미래 데이터 예측</h2>
-    <p>여기에서 미래 데이터를 탐색하고 만든 모델 결과를 예측할 수 있습니다.</p>
+    <h2>농산물 품목별 경매가 예측</h2>
+    <p>- 품목과 날짜를 선택하면 AI가 해당 날짜의 가격을 예측합니다.</p>
+    <div id="form-container" class="container">
+        <label for="item-select">품목 선택 :</label>
+        <select id="item-select" class="pl">
+            <option value="" disabled selected>품목을 선택하세요</option>
+        </select>
+        <label for="prediction-date">예측 날짜:</label>
+        <input type="text" id="prediction-date" placeholder="날짜를 선택하세요" />
+        <button id="generate-prediction" class="btn waves-effect waves-light">예측 생성</button>
+
+    </div>
+
+    <div id="result-container" class="container hidden">
+        <!--<h3>예측 결과 : </h3>-->
+        <p id="prediction-summary"></p>
+        <div id="chart-wrapper">
+            <div id="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로딩 메시지 -->
+    <div id="loading-message" class="container hidden">
+        <p>가격을 예측 중입니다...</p>
+    </div>
+
 </section>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="/static/css/prediction.css">
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/prediction.js"></script>
 {% endblock %}

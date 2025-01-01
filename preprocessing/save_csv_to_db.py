@@ -23,7 +23,7 @@ database = os.getenv('DB_NAME')
 engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}')
 
 # 1. 날씨 데이터 처리 및 저장
-climate_file_path = os.path.join(processed_dir, 'c:/Users/carpe/OneDrive/Desktop/workspace/project/Aution/Auction/data/db/preprocessed_climate.csv')
+climate_file_path = os.path.join(processed_dir, 'preprocessed_climate.csv')
 df_climate = pd.read_csv(climate_file_path, index_col=False)
 
 # 날씨 데이터 칼럼명 매핑
@@ -53,7 +53,7 @@ df_climate.to_sql(name=weather_table_name, con=engine, if_exists='replace', inde
 print(f"데이터가 MySQL 데이터베이스의 {weather_table_name} 테이블에 저장되었습니다.")
 
 # 2. 경매 데이터 처리 및 저장
-market_file_path = os.path.join(processed_dir, 'c:/Users/carpe/OneDrive/Desktop/workspace/project/Aution/Auction/data/db/preprocessed_agromarket.csv')
+market_file_path = os.path.join(processed_dir, 'preprocessed_agromarket.csv')
 df_market = pd.read_csv(market_file_path, index_col=False)
 
 # 경매 데이터 칼럼명 매핑
