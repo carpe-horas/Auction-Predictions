@@ -1,0 +1,10 @@
+{
+    "LSTM_Units": 50,
+    "Dropout_Rate": 0.2,
+    "Optimizer": "adam",
+    "Loss": "mse",
+    "Metrics": [
+        "mae",
+        "mape"
+    ]
+}

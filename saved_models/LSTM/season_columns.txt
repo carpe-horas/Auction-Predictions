@@ -1,0 +1,4 @@
+season_spring
+season_summer
+season_fall
+season_winter
