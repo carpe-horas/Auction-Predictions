@@ -1,44 +1,44 @@
 /* 외부 상자 */
 #outer-container {
-    display: flex; /* 플렉스 레이아웃 */
+    display: flex; 
     border: 1px solid #cccccc;
     border-radius: 8px;
     padding: 15px; 
     background-color: #f4f9fb;
     margin: 30px auto;
-    width: 95%; /* 부모 요소 기준 너비 설정 */
-    max-width: 1600px; /* 최대 너비 확장 */
+    width: 95%; 
+    max-width: 1600px; 
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
     align-items: stretch; /* 메뉴와 그래프 높이 균일화 */
 }
 
 h4 {
-    font-size: 1.0rem; /* 글자 크기 */
-    color: #666; /* 중간 회색 색상 */
-    font-weight: normal; /* 진하지 않게 설정 */
-    margin-top: 10px; /* 상단 여백 */
-    margin-bottom: 50px; /* 하단 여백 */
-    font-family: 'Roboto', sans-serif; /* 글꼴 설정 */
+    font-size: 1.0rem; 
+    color: #666; 
+    font-weight: normal; 
+    margin-top: 10px; 
+    margin-bottom: 50px;
+    font-family: 'Roboto', sans-serif; 
 }
 
 
 /* 왼쪽 메뉴 */
 #menu-container {
-    width: 30%; /* 너비 균일하게 설정 */
-    padding: 15px; /* 패딩 조정 */
-    background-color: #fff; /* 배경색 */
-    border: 1px solid #ddd; /* 테두리 */
+    width: 30%; 
+    padding: 15px; 
+    background-color: #fff; 
+    border: 1px solid #ddd; 
     border-radius: 8px; 
-    box-sizing: border-box; /* 패딩 포함 */
-    margin-right: 15px; /* 오른쪽 간격 */
+    box-sizing: border-box; 
+    margin-right: 15px; 
 }
 
 #menu-container h3 {
-    text-align: center; /* 텍스트 중앙 정렬 */
-    font-size: 1.5em; /* 글자 크기 조정 */
-    font-weight: bold; /* 글자 강조 */
-    margin-bottom: 20px; /* 아래 여백 추가 */
-    color: #333; /* 글자 색상 */
+    text-align: center; 
+    font-size: 1.5em; 
+    font-weight: bold; 
+    margin-bottom: 20px; 
+    color: #333; 
 }
 
 /* 메뉴 리스트 스타일 */
@@ -73,12 +73,12 @@ h4 {
 
 /* 오른쪽 그래프 */
 #chart-wrapper {
-    width: 70%; /* 너비 균일하게 설정 */
-    padding: 10px; /* 패딩 조정 */
-    background-color: #fff; /* 배경색 추가 */
-    border: 1px solid #eeecec; /* 테두리 추가 */
-    border-radius: 8px; /* 둥근 모서리 */
-    box-sizing: border-box; /* 패딩 포함 */
+    width: 70%; 
+    padding: 10px; 
+    background-color: #fff; 
+    border: 1px solid #eeecec; 
+    border-radius: 8px; 
+    box-sizing: border-box; 
 }
 
 #chart-title {
@@ -105,12 +105,12 @@ canvas {
 /* 셀렉트 박스 스타일 */
 #item-select {
     /*appearance: none; /* 기본 화살표 제거 */
-    border: 2px solid #004d00; /* 테두리 색상 */
-    background-color: #f9f9f9; /* 배경색 */
-    color: #333; /* 텍스트 색상 */
+    border: 2px solid #004d00; 
+    background-color: #f9f9f9; 
+    color: #333; 
     font-size: 1rem;
     padding: 0.5rem 1rem;
-    border-radius: 5px; /* 둥근 모서리 */
+    border-radius: 5px; 
     cursor: pointer;
     transition: all 0.3s ease; /* 부드러운 전환 효과 */
     width: 220px; /* 기본 너비 설정 */
@@ -121,19 +121,19 @@ canvas {
 /* 셀렉트 박스 호버 및 포커스 시 스타일 */
 #item-select:hover,
 #item-select:focus {
-    border-color: #01aa20; /* 호버 시 테두리 색상 */
-    background-color: #ffffe6; /* 호버 시 배경색 */
-    outline: none; /* 포커스 시 외곽선 제거 */
+    border-color: #01aa20; 
+    background-color: #ffffe6; 
+    outline: none; 
 }
 
 
 /* 품목 선택 라벨 스타일 */
 #select-box-container label {
-    font-size: 1.2rem; /* 글자 크기 */
-    font-weight: bold; /* 글자 두껍게 */
-    color: #004d00; /* 글자 색상 */
-    margin-right: 10px; /* 셀렉트 박스와 간격 */
-    font-family: 'Roboto', sans-serif; /* 글꼴 */
-    letter-spacing: 1px; /* 글자 간격 */
-    text-transform: uppercase; /* 글자 대문자로 변환 */
+    font-size: 1.2rem; 
+    font-weight: bold; 
+    color: #004d00;
+    margin-right: 10px; 
+    font-family: 'Roboto', sans-serif; 
+    letter-spacing: 1px; 
+    text-transform: uppercase; 
 }

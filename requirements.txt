@@ -65,6 +65,7 @@ keras==3.6.0
 keras-self-attention==0.51.0
 kiwisolver==1.4.7
 libclang==18.1.1
+llvmlite==0.43.0
 lml==0.1.0
 lxml==5.3.0
 Markdown==3.7
@@ -77,6 +78,7 @@ ml-dtypes==0.4.1
 mysql-connector-python==9.1.0
 namex==0.0.8
 nest_asyncio @ file:///home/conda/feedstock_root/build_artifacts/nest-asyncio_1705850609492/work
+numba==0.60.0
 numpy==2.0.2
 opencv-python==4.10.0.84
 openpyxl==3.1.5
@@ -150,6 +152,7 @@ tqdm==4.67.1
 traitlets @ file:///home/conda/feedstock_root/build_artifacts/traitlets_1713535121073/work
 trio==0.27.0
 trio-websocket==0.11.1
+tslearn==0.6.3
 Twisted==24.11.0
 typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1717802530399/work
 tzdata==2024.2
