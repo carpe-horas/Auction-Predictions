@@ -54,11 +54,13 @@
 
 # 웹 기능
 - 분석 시각화 : 품목과 분석 항목 선택 시 데이터를 시각화하여 표시
+![웹분석](images/web-analysis.gif)  
 - 평균 단가 예측
     - 품목과 기준 날짜 선택 시 선택 날짜의 예측 평균단가 텍스트로 표시
     - 과거 데이터와 예측 데이터를 결합하여 선 그래프로 시각화  
-![웹분석](images/web1.JPG)
-![웹예측](images/web2.JPG)  
+![웹예측](images/web-prediction.gif)  
+<!-- ![웹분석](images/web1.JPG)
+![웹예측](images/web2.JPG)   -->
 <br>
 
 # 사용 기술 :   
